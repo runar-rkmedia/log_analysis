@@ -19,18 +19,9 @@ def top_articles(articles_returned=3):
                    SELECT articles.*,
                           num AS VIEWS
                    FROM
-                       (SELECT path,
-                               count(*) AS num
-                        FROM log,
-                             articles
-                        WHERE path != '/' -- We only want path to articles
-                            AND status = '200 OK'
-                        GROUP BY path
-                        ORDER BY num DESC LIMIT (%s)) sub,
+                       (SELECT * from top_articles_in_log limit (%s)) sub,
                         articles
-                   WHERE substring(path
-                                   FROM 10 -- Remove '/article/' from path
-                                   )=slug;
+                   WHERE path = '/article/' || slug ;
                                    """, (articles_returned, ))
     articles = cursor.fetchall()
 
@@ -39,5 +30,6 @@ def top_articles(articles_returned=3):
     return articles
 
 topArticles = top_articles()
+# print(topArticles)
 for article in topArticles:
     print(article)
