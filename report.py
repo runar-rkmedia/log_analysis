@@ -12,7 +12,7 @@ CONNECTION = "dbname=news"
 
 
 def top_articles(articles_returned=3):
-    """Return a list of the most popular articles."""
+    """Return a list of the most popular articles by page-views."""
     connection = connect(CONNECTION)
     cursor = connection.cursor(cursor_factory=extras.DictCursor)
     cursor.execute("""
@@ -34,6 +34,14 @@ def top_articles(articles_returned=3):
     cursor.close()
     connection.close()
     return articles
+
+def topAuthors(authors_returned=3):
+    """Return a list of most popular authors by page-views."""
+    pass
+
+def daysOfErrors(percentile=1):
+    """Return a list of days where there were more than <percentile> errors."""
+    pass
 
 topArticles = top_articles()
 # print(topArticles)
