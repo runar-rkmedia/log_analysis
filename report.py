@@ -17,11 +17,13 @@ def top_articles(articles_returned=3):
     cursor = connection.cursor(cursor_factory=extras.DictCursor)
     cursor.execute("""
                    SELECT articles.*,
-                          num AS VIEWS
+                          num AS views
                    FROM
-                       (SELECT * from top_articles_in_log limit (%s)) sub,
+                       (SELECT *
+                        FROM top_articles_in_log LIMIT (%s)) sub,
                         articles
-                   WHERE path = '/article/' || slug ;
+                   WHERE path = '/article/' || slug
+                   ORDER BY views DESC;
                                    """, (articles_returned, ))
     articles = cursor.fetchall()
 
@@ -32,4 +34,4 @@ def top_articles(articles_returned=3):
 topArticles = top_articles()
 # print(topArticles)
 for article in topArticles:
-    print(article)
+    print("{views} views on article '{title}' by {author}".format(**article))
