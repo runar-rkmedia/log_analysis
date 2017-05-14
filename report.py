@@ -1,5 +1,5 @@
 """
-Reprting tool for newsdata-database.
+Reporting tool for newsdata-database.
 
 Part of a udacity assignment.
 Code by Runar Kristoffersen.
@@ -38,7 +38,7 @@ def top_articles(articles_returned=3):
     return db_lookup(SQL, articles_returned)
 
 
-def topAuthors(authors_returned=3):
+def top_authors(authors_returned=3):
     """Return a list of most popular authors by page-views."""
     SQL = """
         SELECT authors.name AS name,
@@ -55,7 +55,7 @@ def topAuthors(authors_returned=3):
     return db_lookup(SQL, authors_returned)
 
 
-def daysOfErrors(percentile=0.01):
+def days_of_errors(percentile=0.01):
     """Return a list of days where there were more than <percentile> errors."""
     SQL = """
     SELECT *
@@ -81,9 +81,9 @@ def daysOfErrors(percentile=0.01):
     return db_lookup(SQL, percentile)
 
 # print(daysOfErrors())
-errorDays = daysOfErrors()
-for day in errorDays:
-    print("{}: {} entries, {} ok, {} errors, {:04.2f}%".format(day['date'], day['total'], day['status_ok'], day['status_not_ok'], day['error_fraction']*100))
+# errorDays = days_of_errors()
+# for day in errorDays:
+#     print("{}: {} entries, {} ok, {} errors, {:04.2f}%".format(day['date'], day['total'], day['status_ok'], day['status_not_ok'], day['error_fraction']*100))
 # topArticles = top_articles()
 # topAuthors = topAuthors()
 # print(topAuthors)
