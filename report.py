@@ -11,34 +11,41 @@ from psycopg2 import extras, connect
 CONNECTION = "dbname=news"
 
 
-def top_articles(articles_returned=3):
-    """Return a list of the most popular articles by page-views."""
+def db_lookup(SQL, data):
+    """Helper for SQL-lookups."""
     connection = connect(CONNECTION)
     cursor = connection.cursor(cursor_factory=extras.DictCursor)
-    cursor.execute("""
-                    SELECT *
-                    FROM
-                        (SELECT articles.*,
-                                num AS views
-                         FROM
-                             (SELECT *
-                              FROM top_articles_in_log LIMIT (%s)) subsub,
-                              articles
-                         WHERE path = '/article/' || slug ) sub,
-                         authors
-                    WHERE authors.id=author
-                    ORDER BY views DESC;
-                                   """, (articles_returned, ))
-    articles = cursor.fetchall()
-
+    if not isinstance(data, tuple):
+        data = (data,)
+    cursor.execute(SQL, data)
+    result = cursor.fetchall()
     cursor.close()
     connection.close()
-    return articles
+    return result
+
+
+def top_articles(articles_returned=3):
+    """Return a list of the most popular articles by page-views."""
+    SQL = """
+        SELECT *
+        FROM
+            (SELECT articles.*,
+                    num AS views
+             FROM
+                 (SELECT *
+                  FROM top_articles_in_log LIMIT (%s)) subsub,
+                  articles
+             WHERE path = '/article/' || slug ) sub,
+             authors
+        WHERE authors.id=author
+        ORDER BY views DESC;
+           """
+    return db_lookup(SQL, articles_returned)
 
 
 def topAuthors(authors_returned=3):
     """Return a list of most popular authors by page-views."""
-    pass
+    return ''
 
 
 def daysOfErrors(percentile=1):
@@ -46,6 +53,7 @@ def daysOfErrors(percentile=1):
     pass
 
 topArticles = top_articles()
-# print(topArticles)
+topAuthors = topAuthors()
+print(topAuthors)
 for article in topArticles:
     print("{views} views on article '{title}' by {name}".format(**article))
