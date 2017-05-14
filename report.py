@@ -49,7 +49,9 @@ def topAuthors(authors_returned=3):
         INNER JOIN top_articles_in_log
             ON top_articles_in_log.path ='/article/' || articles.slug
         GROUP BY name
-        ORDER BY views DESC;"""
+        ORDER BY views DESC
+        LIMIT (%s)
+        ;"""
     return db_lookup(SQL, authors_returned)
 
 
