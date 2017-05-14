@@ -27,19 +27,14 @@ def db_lookup(SQL, data):
 def top_articles(articles_returned=3):
     """Return a list of the most popular articles by page-views."""
     SQL = """
-        SELECT *
-        FROM
-            (SELECT articles.*,
-                    num AS views
-             FROM
-                 (SELECT *
-                  FROM top_articles_in_log LIMIT (%s)) subsub,
-                  articles
-             WHERE path = '/article/' || slug ) sub,
-             authors
-        WHERE authors.id=author
-        ORDER BY views DESC;
-           """
+        SELECT authors.name, articles.title,
+               top_articles_in_log.num AS views
+        FROM (select path, num from top_articles_in_log limit (%s)) top_articles_in_log
+        INNER JOIN articles
+        ON top_articles_in_log.path ='/article/' || articles.slug
+        INNER JOIN authors
+            ON articles.author = authors.id
+        ORDER BY views DESC;"""
     return db_lookup(SQL, articles_returned)
 
 
@@ -64,8 +59,9 @@ def daysOfErrors(percentile=1):
 
 topArticles = top_articles()
 topAuthors = topAuthors()
-print(topAuthors)
+# print(topAuthors)
 for author in topAuthors:
     print("{views} views from author '{name}'".format(**author))
-# for article in topArticles:
-    # print("{views} views on article '{title}' by {name}".format(**article))
+for article in topArticles:
+    # print(article)
+    print("{views} views on article '{title}' by {name}".format(**article))
