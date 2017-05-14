@@ -45,7 +45,17 @@ def top_articles(articles_returned=3):
 
 def topAuthors(authors_returned=3):
     """Return a list of most popular authors by page-views."""
-    return ''
+    SQL = """
+        SELECT authors.name AS name,
+               sum(top_articles_in_log.num) AS views
+        FROM authors
+        INNER JOIN articles
+            ON articles.author = authors.id
+        INNER JOIN top_articles_in_log
+            ON top_articles_in_log.path ='/article/' || articles.slug
+        GROUP BY name
+        ORDER BY views DESC;"""
+    return db_lookup(SQL, authors_returned)
 
 
 def daysOfErrors(percentile=1):
@@ -55,5 +65,7 @@ def daysOfErrors(percentile=1):
 topArticles = top_articles()
 topAuthors = topAuthors()
 print(topAuthors)
-for article in topArticles:
-    print("{views} views on article '{title}' by {name}".format(**article))
+for author in topAuthors:
+    print("{views} views from author '{name}'".format(**author))
+# for article in topArticles:
+    # print("{views} views on article '{title}' by {name}".format(**article))
