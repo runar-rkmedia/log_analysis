@@ -55,15 +55,40 @@ def topAuthors(authors_returned=3):
     return db_lookup(SQL, authors_returned)
 
 
-def daysOfErrors(percentile=1):
+def daysOfErrors(percentile=0.01):
     """Return a list of days where there were more than <percentile> errors."""
-    pass
+    SQL = """
+    SELECT *
+    FROM
+        (SELECT TIME::date AS date,
+                count(*) AS total,
+                count(CASE
+                          WHEN status = '200 OK' THEN 1
+                          ELSE NULL
+                      END) AS status_ok,
+                count(*)-count(CASE
+                                   WHEN status = '200 OK' THEN 1
+                                   ELSE NULL
+                               END) AS status_not_ok,
+                1 - count(CASE
+                              WHEN status = '200 OK' THEN 1
+                              ELSE NULL
+                          END)::numeric / count(*) AS error_fraction
+         FROM log
+         GROUP BY TIME::date) sub
+    WHERE error_fraction > (%s)
+    ORDER BY error_fraction DESC ;"""
+    return db_lookup(SQL, percentile)
 
-topArticles = top_articles()
-topAuthors = topAuthors()
+# print(daysOfErrors())
+errorDays = daysOfErrors()
+for day in errorDays:
+    print("{}: {} entries, {} ok, {} errors, {:04.2f}%".format(day['date'], day['total'], day['status_ok'], day['status_not_ok'], day['error_fraction']*100))
+# topArticles = top_articles()
+# topAuthors = topAuthors()
 # print(topAuthors)
-for author in topAuthors:
-    print("{views} views from author '{name}'".format(**author))
-for article in topArticles:
+# for author in topAuthors:
+    # print("{views} views from author '{name}'".format(**author))
+# for article in topArticles:
     # print(article)
-    print("{views} views on article '{title}' by {name}".format(**article))
+    # print("{views} views on article '{title}' by {name}".format(**article))
