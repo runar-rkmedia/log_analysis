@@ -50,7 +50,7 @@ def print_program():
         str,
         lambda x: x in choiceIndexList)
 
-    current_choice = choices[ choiceIndexList.index(user_main_choice)]
+    current_choice = choices[choiceIndexList.index(user_main_choice)]
     print('\n' * 5)
 
     print(current_choice['text'])
@@ -74,7 +74,8 @@ print("""
       \n\n
       """)
 user_input_q = ''
-while user_input_q != 'q':
+while user_input_q.strip() != 'q':
+    print(len(user_input_q))
     print_program()
-    user_input = input(
+    user_input_q = input(
         '\nPress enter to return to main menu, typq `q` to quit.\n')
