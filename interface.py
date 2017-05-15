@@ -33,13 +33,6 @@ def print_with_choice(text_before, casting,
 
 def print_program():
     """Outputs the program to the terminal."""
-    print('\n\n')
-    print("""
-          Welcome to the Report Tool for Log Analysis.
-          \n\n
-          With this tool you can quickly get statistics from the database.
-          \n\n
-          """)  # noqa
 
     mainChoices = 'Valid choices: \n'
 
@@ -73,6 +66,13 @@ def print_program():
         subChoice['parser'](user_sub_choice)
 
 
+print("""
+      \n\n
+      Welcome to the Report Tool for Log Analysis.
+      \n\n
+      With this tool you can quickly get statistics from the database.
+      \n\n
+      """)
 user_input_q = ''
 while user_input_q != 'q':
     print_program()
