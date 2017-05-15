@@ -92,7 +92,7 @@ choices = [
             'text': 'How many articles do you want to retrieve? Will default to 3',  # noqa
             'default': 3,
             'validInput': lambda x: 0 < x < 1000,
-            'parser': parse_top_articles
+            'parser': parse_top_articles,
         }
     },
     {
