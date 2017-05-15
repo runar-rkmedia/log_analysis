@@ -112,8 +112,12 @@ choices = [
         'subChoice': {
             'text': 'At what percentage of errors do you want to set as the minimum for this list? Default is to show all days where more than 1% of users recieved an error.',  # noqa
             'default': 1.0,
-            'validInput': lambda x: 0 <= x < 100,
+            'validInput': lambda x: -10 <= x < 100,
             'parser': parse_days_of_errors
         }
     }
 ]
+
+choiceIndexList = []
+for choice in choices:
+    choiceIndexList.append(choice['choiceIndex'])
