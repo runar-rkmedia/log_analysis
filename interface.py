@@ -19,7 +19,6 @@ def print_with_choice(text_before, casting,
     while True:
         user_choice = input('\n' + 'Please make a selection' + '\n')
         try:
-            print(len(user_choice), bool(user_choice))
             if not user_choice and default:
                 return default
             elif validator_lambda(casting(user_choice)):
@@ -41,18 +40,24 @@ def print_program():
           With this tool you can quickly get statistics from the database.
           \n\n
           """)  # noqa
-    i = 0
-    mainChoices = 'Valid choices: \n'
-    for choice in choices:
-        i += 1
-        mainChoices += ("{}: {}\n".format(i, choice['text']))
 
+    mainChoices = 'Valid choices: \n'
+
+    choiceIndexList = []
+    for choice in choices:
+        choiceIndexList.append(choice['choiceIndex'])
+        mainChoices += (
+            "{}: {}\n".format(
+                choice['choiceIndex'],
+                choice['text'])
+        )
+    print('a' in choiceIndexList)
     user_main_choice = print_with_choice(
         mainChoices,
-        int,
-        lambda x: 1 <= x < len(choices) + 1)
+        str,
+        lambda x: x in choiceIndexList)
 
-    current_choice = choices[user_main_choice - 1]
+    current_choice = choices[ choiceIndexList.index(user_main_choice)]
     print('\n' * 5)
 
     print(current_choice['text'])

@@ -88,6 +88,7 @@ def parse_days_of_errors(percentile):
 choices = [
     {
         'text': 'List the most popular articles, by page-views.',
+        'choiceIndex': 'a',
         'subChoice': {
             'text': 'How many articles do you want to retrieve? Will default to 3',  # noqa
             'default': 3,
@@ -97,6 +98,7 @@ choices = [
     },
     {
         'text': 'List the most popular authors, by page-views.',
+        'choiceIndex': 'b',
         'subChoice': {
             'text': 'How many authors do you want to retrieve? Will default to 3',  # noqa
             'validInput': lambda x: 0 < x < 1000,
@@ -106,6 +108,7 @@ choices = [
     },
     {
         'text': 'List days where a certain percentage of users recieved an error.',  # noqa
+        'choiceIndex': 'c',
         'subChoice': {
             'text': 'At what percentage of errors do you want to set as the minimum for this list? Default is to show all days where more than 1% of users recieved an error.',  # noqa
             'default': 1.0,
