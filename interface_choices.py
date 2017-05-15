@@ -30,7 +30,6 @@ def parse_list(info_message, formatString,
 
     """
     print('\n' * 5 + info_message + '\n' * 5)
-    print(info_message)
     list_to_parse = list_function(*args)
     if list_to_parse:
         print('Here is the result:\n')
