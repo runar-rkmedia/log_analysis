@@ -45,7 +45,7 @@ Optionally, add a refinement to the choice. For instance, the example below will
 ```bash
 python interface.py a 5
 ```
-![List of most popular articles](http://i66.tinypic.com/fnwruo.png)
+![List of most popular articles](http://i66.tinypic.com/2wf3jud.png)
 
 ## Compatability
 
