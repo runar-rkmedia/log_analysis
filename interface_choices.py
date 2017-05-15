@@ -10,7 +10,7 @@ from report import top_authors, top_articles, days_of_errors
 def parse_list(info_message, formatString,
                formatLambdaKeys, list_function, *args):
     """
-    Basic parsing of lists.
+    Template for printing lists to the terminal.
 
     <info_message> is a message to print while retrieving the list.
     <formatString> is a string with formatting.

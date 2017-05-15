@@ -14,11 +14,9 @@ if sys.version_info < (3, 0):
 
 def validate_input(user_choice, validator_lambda, casting, default):
     """Validate an input."""
-    user_choice = casting(user_choice)
     if default and user_choice != 0 and not user_choice:
         return default
     elif validator_lambda(casting(user_choice)):
-        print(user_choice != 0, user_choice)
         return casting(user_choice)
     else:
         raise ValueError
@@ -35,7 +33,7 @@ def print_with_choice(text_before, casting,
                 user_choice, validator_lambda, casting, default)
         except ValueError:
             print(text_before)
-            print('Not a valid input.')
+            print('Unrecognized input, expected {}.'.format(casting))
 
 
 def print_program():
@@ -55,10 +53,9 @@ def print_program():
         lambda x: x in choiceIndexList)
 
     current_choice = choices[choiceIndexList.index(user_main_choice)]
-    print('\n' * 5)
 
-    print(current_choice['text'])
-    print('\n' * 2)
+    print('\n' * 5 + current_choice['text'] + '\n' * 2)
+
     if current_choice.get('subChoice'):
         subChoice = current_choice['subChoice']
         user_sub_choice = print_with_choice(
@@ -71,6 +68,7 @@ def print_program():
 
 
 if len(sys.argv) == 1:
+    # No flags after command, initiate interactive mode
     print("""
           \n\n
           Welcome to the Report Tool for Log Analysis.
@@ -80,14 +78,15 @@ if len(sys.argv) == 1:
           """)
     user_input_q = ''
     while user_input_q.strip() != 'q':
-        print(len(user_input_q))
         print_program()
         user_input_q = input(
             '\nPress enter to return to main menu, typq `q` to quit.\n')
 else:
+    # We have flags after command, verify and run
     if sys.argv[1] in choiceIndexList:
         flagChoice = choices[choiceIndexList.index(sys.argv[1])]['subChoice']
         if len(sys.argv) >= 3:
+            # subargument
             flagSubChoice = sys.argv[2]
             flag_default = flagChoice.get('default')
             flag_casting = type(flag_default)
@@ -97,13 +96,15 @@ else:
                     flagChoice['validInput'],
                     flag_casting,
                     flag_default)
-                print(verified_choice)
                 if verified_choice or verified_choice == 0:
                     flagChoice['parser'](verified_choice)
                 else:
                     raise ValueError
 
             except ValueError:
-                print('Unrecognized input, expected {}.'.format(flag_casting))
+                print(
+                    'Unrecognized second argument, expected {}.'.format(
+                        flag_casting))
         else:
+            # Default subargument for command
             flagChoice['parser'](flagChoice['default'])
