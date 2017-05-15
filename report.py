@@ -87,8 +87,3 @@ def days_of_errors(percentile=0.01):
 # topArticles = top_articles()
 # topAuthors = topAuthors()
 # print(topAuthors)
-# for author in topAuthors:
-    # print("{views} views from author '{name}'".format(**author))
-# for article in topArticles:
-    # print(article)
-    # print("{views} views on article '{title}' by {name}".format(**article))
