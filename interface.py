@@ -80,7 +80,7 @@ if len(sys.argv) == 1:
     while user_input_q.strip() != 'q':
         print_program()
         user_input_q = input(
-            '\nPress enter to return to main menu, typq `q` to quit.\n')
+            '\nPress enter to return to main menu, type `q` to quit.\n')
 else:
     # We have flags after command, verify and run
     if sys.argv[1] in choiceIndexList:

@@ -8,7 +8,7 @@ Processes a database and outputs useful statistics.
 
 - List the most popular articles, by page-views.
 - List the most popular authors, by page-views.
-- List days where a certain percentage of users recieved an error.
+- List days where a certain percentage of users received an error.
 
 
 ## Usage
@@ -24,17 +24,17 @@ python interface.py
 ```
 
 After a welcome-message, the user is presented with different choices.
-![Scrrenshot mainscreen](http://i66.tinypic.com/23sc09v.png)
+![Screenshot mainscreen](http://i66.tinypic.com/23sc09v.png)
 
-To make a selecten, input the character seen at the left of the desired choice.
+To make a selection, input the character seen at the left of the desired choice.
 
 Here, typing `b` and pressing return would select the choice `List the most popular authors, by page-views.`
 
-The user is then able to customize their choice further, or can just press return again to use the default settings.
+The user is then able to customise their choice further, or can just press return again to use the default settings.
 
 ## Using flags, for direct output
 
-User can also use flags to get their favorite statistic directly. Just append the choice after the command.
+The user can also use flags to get their favourite statistic directly. Just append the choice after the command.
 
 ```bash
 python interface.py b
