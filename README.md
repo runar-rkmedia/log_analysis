@@ -55,7 +55,7 @@ The application runs in both python2.7 and python3.6
 
 1. Create a database called `news` using `psql`.
 2. Import the structure and the data.
-    - `psql -d news -f newsdata.sql`
+    - `psql -d news -f newsdata.sql` Note that this file is provided by Udacity, and is not in this repository.
 3. Import the required views.
     - `psql -d news -f views.sql`
 4. Install the required modules.
