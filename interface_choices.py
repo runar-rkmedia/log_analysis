@@ -4,6 +4,7 @@ Interface_choices for reporting tool for newsdata-database.
 Part of a udacity assignment.
 Code by Runar Kristoffersen.
 """
+# !/usr/bin/python
 from report import top_authors, top_articles, days_of_errors
 
 
@@ -30,6 +31,7 @@ def parse_list(info_message, formatString,
 
     """
     print('\n' * 5 + info_message + '\n' * 5)
+    print(info_message)
     list_to_parse = list_function(*args)
     if list_to_parse:
         print('Here is the result:\n')

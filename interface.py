@@ -4,6 +4,7 @@ Interface for reporting tool for newsdata-database.
 Part of a udacity assignment.
 Code by Runar Kristoffersen.
 """
+# !/usr/bin/python
 import sys
 from interface_choices import choices, choiceIndexList
 
