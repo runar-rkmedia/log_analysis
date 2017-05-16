@@ -47,32 +47,6 @@ def top_authors(authors_returned=3):
 def days_of_errors(percentile=0.01):
     """Return a list of days where there were more than <percentile> errors."""
     SQL = """
-    SELECT *
-    FROM
-        (SELECT TIME::date AS date,
-                count(*) AS total,
-                count(CASE
-                          WHEN status = '200 OK' THEN 1
-                          ELSE NULL
-                      END) AS status_ok,
-                count(*)-count(CASE
-                                   WHEN status = '200 OK' THEN 1
-                                   ELSE NULL
-                               END) AS status_not_ok,
-                1 - count(CASE
-                              WHEN status = '200 OK' THEN 1
-                              ELSE NULL
-                          END)::numeric / count(*) AS error_fraction
-         FROM log
-         GROUP BY TIME::date) sub
-    WHERE error_fraction > (%s)
-    ORDER BY error_fraction DESC ;"""
+        SELECT *
+        FROM days_of_errors((%s));"""
     return db_lookup(SQL, percentile)
-
-# print(daysOfErrors())
-# errorDays = days_of_errors()
-# for day in errorDays:
-#     print("{}: {} entries, {} ok, {} errors, {:04.2f}%".format(day['date'], day['total'], day['status_ok'], day['status_not_ok'], day['error_fraction']*100))
-# topArticles = top_articles()
-# topAuthors = topAuthors()
-# print(topAuthors)
