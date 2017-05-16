@@ -4,8 +4,7 @@ Reporting tool for newsdata-database.
 Part of a udacity assignment.
 Code by Runar Kristoffersen.
 """
-
-# import psycopg2
+# !/usr/bin/python
 from psycopg2 import extras, connect
 
 CONNECTION = "dbname=news"
