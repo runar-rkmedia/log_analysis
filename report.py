@@ -27,31 +27,20 @@ def db_lookup(SQL, data):
 def top_articles(articles_returned=3):
     """Return a list of the most popular articles by page-views."""
     SQL = """
-        SELECT authors.name, articles.title,
-               top_articles_in_log.num AS views
-        FROM (select path, num from top_articles_in_log limit (%s)) top_articles_in_log
-        INNER JOIN articles
-        ON top_articles_in_log.path ='/article/' || articles.slug
-        INNER JOIN authors
-            ON articles.author = authors.id
-        ORDER BY views DESC;"""
+        SELECT *
+        FROM top_articles_in_log
+        LIMIT (%s);
+        """
     return db_lookup(SQL, articles_returned)
 
 
 def top_authors(authors_returned=3):
     """Return a list of most popular authors by page-views."""
     SQL = """
-        SELECT authors.name AS name,
-               sum(top_articles_in_log.num) AS views
-        FROM authors
-        INNER JOIN articles
-            ON articles.author = authors.id
-        INNER JOIN top_articles_in_log
-            ON top_articles_in_log.path ='/article/' || articles.slug
-        GROUP BY name
-        ORDER BY views DESC
-        LIMIT (%s)
-        ;"""
+        SELECT *
+        FROM top_authors_in_log
+        LIMIT (%s);
+    """
     return db_lookup(SQL, authors_returned)
 
 

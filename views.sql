@@ -1,10 +1,23 @@
 CREATE VIEW top_articles_in_log AS
-SELECT path,
-       count(*) AS num
-FROM log,
-     articles
-WHERE path LIKE '/article/%' -- We only want path to articles
+SELECT articles.title,
+       min(authors.name) AS name,
+       count(*) AS views
+FROM authors,
+     articles,
+     log
+WHERE authors.id = articles.author
+    AND log.path = concat('/article/', articles.slug)
+GROUP BY articles.title
+ORDER BY views DESC;
 
-    AND status = '200 OK'
-GROUP BY path
-ORDER BY num DESC;
+
+CREATE VIEW top_authors_in_log AS
+SELECT authors.name,
+       count(*) AS views
+FROM authors,
+     articles,
+     log
+WHERE authors.id = articles.author
+    AND log.path = concat('/article/', articles.slug)
+GROUP BY authors.name
+ORDER BY views DESC;
